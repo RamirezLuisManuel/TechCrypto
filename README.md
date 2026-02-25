@@ -6,15 +6,15 @@
 Para garantizar un desarrollo escalable en Python 3.x, se siguieron los siguientes estándares:
 
 ### Creación del directorio raíz
-mkdir TechCrypto
-cd TechCrypto
+        mkdir TechCrypto
+        cd TechCrypto
 
 ### Entorno Virtual y Dependencias
 Se aisló el proyecto para gestionar las librerías necesarias de comunicación y procesamiento de fechas:
 
-python -m venv venv
-venv\Scripts\activate
-pip install flask
+        python -m venv venv
+        venv\Scripts\activate
+        pip install flask
 
 ## 3. Estructura del Proyecto
 El proyecto sigue un patrón de diseño MVC (Modelo-Vista-Controlador) simplificado para Flask:
@@ -74,7 +74,7 @@ Sustitución de colores opacos por una paleta de alto contraste (Cian Eléctrico
 ## 7. Ejecución y Evidencia
 Para iniciar la plataforma de monitoreo:
 
-python app.py
+        python app.py
 
 Resultado esperado: Servidor activo en http://127.0.0.1:5000.
 
