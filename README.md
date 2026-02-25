@@ -18,23 +18,24 @@ pip install flask
 
 ## 3. Estructura del Proyecto
 El proyecto sigue un patrón de diseño MVC (Modelo-Vista-Controlador) simplificado para Flask:
-    TechCrypto/
-    ├── app.py              # Controlador principal y gestión de rutas
-    ├── services.py         # Lógica de consumo de APIs (CMC, Binance, Finnhub)
-    ├── static/
-    │   ├── css/
-    │   │   ├── style.css   # Estilos globales y layout
-    │   │   ├── index.css   # Efectos de Interactive Cards y Banner
-    │   │   └── dashboard.css # Diseño de tablas, buscador y modales
-    │   ├── js/
-    │   │   ├── realtime.js # Lógica de Chart.js y tablas dinámicas
-    │   │   └── news.js     # Paginación y filtrado de noticias
-    │   └── images/         # Recursos visuales locales
-    └── templates/          # Vistas Jinja2
-        ├── layout.html     # Estructura base
-        ├── index.html      # Inicio interactivo
-        ├── realtime.html   # Dashboard de mercado
-        └── news.html       # Terminal de noticias financieras
+
+        TechCrypto/
+        ├── app.py              # Controlador principal y gestión de rutas
+        ├── services.py         # Lógica de consumo de APIs (CMC, Binance, Finnhub)
+        ├── static/
+        │   ├── css/
+        │   │   ├── style.css   # Estilos globales y layout
+        │   │   ├── index.css   # Efectos de Interactive Cards y Banner
+        │   │   └── dashboard.css # Diseño de tablas, buscador y modales
+        │   ├── js/
+        │   │   ├── realtime.js # Lógica de Chart.js y tablas dinámicas
+        │   │   └── news.js     # Paginación y filtrado de noticias
+        │   └── images/         # Recursos visuales locales
+        └── templates/          # Vistas Jinja2
+            ├── layout.html     # Estructura base
+            ├── index.html      # Inicio interactivo
+            ├── realtime.html   # Dashboard de mercado
+            └── news.html       # Terminal de noticias financieras
 
 ## 4. Implementación del Backend (Flask)
 El archivo app.py gestiona el flujo de datos entre las APIs externas y la interfaz de usuario.
