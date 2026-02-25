@@ -1,0 +1,222 @@
+/* ================= MAIN LAYOUT ADJUSTMENTS ================= */
+/* Ajuste para que el grid del index sea más ancho y las tarjetas más altas */
+.index-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Tarjetas más anchas */
+    gap: 30px;
+    padding-bottom: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ================= HERO CAROUSEL STYLES ================= */
+/* CONTENEDOR PRINCIPAL */
+.hero-carousel-container {
+    position: relative;
+    width: 100%;
+    height: 450px; /* Altura fija para que no salte el contenido */
+    overflow: hidden; /* Corta lo que sobra a los lados */
+    border-radius: 0; /* Si quieres que ocupe todo el ancho arriba */
+    background: #000;
+}
+
+/* CONTENEDOR PRINCIPAL (La ventana) */
+.hero-carousel-container {
+    position: relative;
+    width: 100%; /* Se ajusta al ancho de tu grid principal */
+    height: 450px;
+    overflow: hidden; /* Corta las imágenes que no están a la vista */
+    border-radius: 15px; /* Bordes redondeados para que se vea moderno */
+    background: #000;
+    margin-bottom: 2rem;
+}
+
+/* EL RIEL (Donde corren las fotos) */
+/* BANNER ESTÁTICO */
+.hero-static-banner {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Altura del banner */
+    overflow: hidden;
+    border-radius: 15px; /* Bordes redondeados para tu estilo moderno */
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+}
+
+.hero-static-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+    filter: brightness(0.4); /* Oscurece la imagen para que el texto resalte */
+}
+
+.hero-static-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra el texto perfectamente */
+    text-align: center;
+    color: white;
+    width: 80%;
+}
+
+.hero-static-caption h2 {
+    font-size: 3.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+}
+
+.hero-static-caption p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+.hero-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 3;
+    font-size: 1.5rem;
+    transition: 0.3s;
+}
+.hero-btn:hover { background: var(--primary); color: black; }
+.hero-prev { left: 20px; }
+.hero-next { right: 20px; }
+
+
+/* ================= INTERACTIVE CARDS STYLES ================= */
+
+/* 1. Configuración base de la tarjeta */
+.interactive-card {
+    position: relative;
+    height: 350px; /* Altura fija para que se vean bien las imágenes */
+    border-radius: 15px;
+    overflow: hidden; /* Esencial para que la imagen no se salga */
+    border: none; /* Quitamos el borde por defecto */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+/* 2. Imágenes de fondo para cada tarjeta */
+/* REEMPLAZA ESTAS URLs POR LAS TUYAS LOCALES (ej: url('../img/market-bg.jpg')) */
+/* ================= TARJETAS INTERACTIVAS (INDEX) ================= */
+
+.interactive-card {
+    position: relative;
+    height: 380px; 
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Imágenes de fondo - Verifica que las rutas sean correctas */
+.market-card {
+    background-image: url('../images/bit.jpg'); /* Ruta relativa al CSS */
+    background-size: cover;
+    background-position: center;
+}
+
+.news-card {
+    background-image: url('../images/news.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Fondo oscuro desvanecido (Inicial) */
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11, 15, 26, 0.95) 0%, rgba(11, 15, 26, 0.2) 100%);
+    transition: background 0.4s ease;
+    z-index: 1;
+}
+
+/* Al pasar el mouse, el fondo se oscurece más para leer el texto P */
+.interactive-card:hover .card-overlay {
+    background: rgba(11, 15, 26, 0.85);
+    backdrop-filter: blur(2px);
+}
+
+.card-content-wrap {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 25px;
+    z-index: 2;
+    color: white;
+}
+
+.always-visible h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    transition: transform 0.4s ease;
+}
+
+.interactive-card:hover .always-visible h3 {
+    transform: translateY(-10px);
+    color: var(--primary); /* El título cambia al color azul Tech */
+}
+
+/* Contenido que aparece (P y A) */
+.hidden-on-start {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.interactive-card:hover .hidden-on-start {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 15px;
+}
+
+.hidden-on-start p {
+    color: #cbd5e1; /* Color de texto claro pero no blanco puro */
+    line-height: 1.6;
+}
+
+/* ELIMINAR ESTILOS DE ENLACE EN LA TARJETA */
+.card-link {
+    text-decoration: none !important;
+    color: inherit;
+    display: block;
+}
+
+/* MEJORA DEL BOTÓN (Más brillante y visible) */
+.btn-primary-bright {
+    display: inline-block;
+    background-color: #00f2ff; /* Cian eléctrico brillante */
+    color: #0b0f1a; /* Texto oscuro para contraste máximo */
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+    border: none;
+    text-transform: uppercase;
+}
+
+/* Efecto cuando pasas el mouse por la tarjeta */
+.card-link:hover .btn-primary-bright {
+    background-color: white;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+/* Asegurar que la tarjeta indique que es clickeable */
+.interactive-card {
+    cursor: pointer;
+}

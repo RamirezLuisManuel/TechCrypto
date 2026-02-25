@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TechCrypto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="logo"><strong>Tech</strong> <span style="color:var(--accent)">CRYPTO</span></div>
+        <div class="menu">
+            <a href="/">Inicio</a>
+            <a href="/dashboard">Mercado</a>
+            <a href="/news">Noticias</a>
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

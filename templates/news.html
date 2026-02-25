@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+<div class="dashboard-wrapper">
+    <div class="news-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div>
+            <h2 style="color: white; letter-spacing: 1px;"><i class="fas fa-coins" style="color: var(--primary);"></i> MONEY NEWS</h2>
+            <p style="color: var(--text-muted);">Noticias de mercados, empresas y finanzas.</p>
+        </div>
+        <div class="search-box" style="width: 300px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 5px 15px; display: flex; align-items: center;">
+            <i class="fas fa-search" style="color: var(--text-muted); margin-right: 10px;"></i>
+            <input type="text" id="newsSearch" placeholder="FILTRAR POR TITULAR..." onkeyup="handleFilter()" style="background: transparent; border: none; color: white; outline: none; width: 100%;">
+        </div>
+    </div>
+
+    <div id="newsGrid" class="news-grid"></div>
+
+    <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 40px; padding-bottom: 50px;">
+        <button class="btn-primary" onclick="changePage(-1)">ANTERIOR</button>
+        <span id="pageInfo" style="color: white; font-weight: bold; font-family: monospace;"></span>
+        <button class="btn-primary" onclick="changePage(1)">SIGUIENTE</button>
+    </div>
+</div>
+
+<div id="newsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(8px);">
+    <div style="background: var(--surface); width: 90%; max-width: 650px; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; animation: fadeIn 0.3s;">
+        <span onclick="closeModal()" style="position: absolute; top: 10px; right: 20px; color: white; font-size: 35px; cursor: pointer; z-index: 10;">&times;</span>
+        <div id="mImg" style="height: 280px; background-size: cover; background-position: center;"></div>
+        <div style="padding: 30px;">
+            <div id="mMeta" style="color: var(--primary); font-size: 0.8rem; font-weight: bold; margin-bottom: 10px;"></div>
+            <h2 id="mTitle" style="color: white; margin-bottom: 15px; line-height: 1.3;"></h2>
+            <p id="mSum" style="color: #94a3b8; line-height: 1.7; margin-bottom: 25px; font-size: 0.95rem;"></p>
+            <a id="mLink" href="#" target="_blank" class="btn-primary" style="display: block; text-align: center; text-decoration: none; padding: 15px; font-weight: bold;">LEER NOTICIA COMPLETA <i class="fas fa-external-link-alt"></i></a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Datos inyectados desde Flask
+    const rawData = {{ news_list | tojson }};
+    let filteredNews = [...rawData];
+    let currentPage = 1;
+    const itemsPerPage = 9; // Mostramos 6 tarjetas por página
+
+    function displayNews() {
+        const grid = document.getElementById('newsGrid');
+        grid.innerHTML = '';
+        
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = filteredNews.slice(start, end);
+
+        pageItems.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            card.innerHTML = `
+                <div class="news-image" style="height: 180px; background-size: cover; background-position: center; background-image: url('${item.image || 'https://via.placeholder.com/400x200?text=FINANCE'}');"></div>
+                <div class="news-body" style="padding: 20px;">
+                    <span style="color: var(--text-muted); font-size: 0.7rem;">${item.date_pretty} // ${item.source}</span>
+                    <h3 style="color: white; font-size: 1.1rem; margin: 10px 0; height: 3em; overflow: hidden;">${item.headline.substring(0, 75)}...</h3>
+                    <button class="btn-primary" onclick="openModal('${item.headline.replace(/'/g, "\\'")}', '${item.summary.replace(/'/g, "\\'")}', '${item.url}', '${item.image}', '${item.source}', '${item.date_pretty}')" style="padding: 10px 15px; width: 100%; cursor: pointer;">
+                        LEER MÁS
+                    </button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        updatePagination();
+    }
+
+    function updatePagination() {
+        const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+        document.getElementById('pageInfo').innerText = `PÁGINA ${currentPage} / ${totalPages || 1}`;
+    }
+
+    function changePage(dir) {
+        const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+        const next = currentPage + dir;
+        if (next >= 1 && next <= totalPages) {
+            currentPage = next;
+            displayNews();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function handleFilter() {
+        const query = document.getElementById('newsSearch').value.toLowerCase();
+        filteredNews = rawData.filter(n => n.headline.toLowerCase().includes(query));
+        currentPage = 1;
+        displayNews();
+    }
+
+    function openModal(title, sum, url, img, source, date) {
+        document.getElementById('mTitle').innerText = title;
+        document.getElementById('mSum').innerText = sum;
+        document.getElementById('mLink').href = url;
+        document.getElementById('mMeta').innerText = `${source.toUpperCase()} • ${date}`;
+        document.getElementById('mImg').style.backgroundImage = `url('${img || 'https://via.placeholder.com/400x200?text=FINANCE'}')`;
+        document.getElementById('newsModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('newsModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Inicialización al cargar
+    window.onload = displayNews;
+</script>
+
+<style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .news-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.3s; }
+    .news-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+</style>
+{% endblock %}

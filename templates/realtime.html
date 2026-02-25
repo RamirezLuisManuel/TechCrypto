@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="dashboard-wrapper">
+    <div class="chart-container">
+        <h3 id="chartTitle">CARGANDO...</h3>
+        <div style="height: 350px;">
+            <canvas id="mainChart"></canvas>
+        </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="position:relative;">
+            <i class="fas fa-search" style="position:absolute; left:12px; top:12px; color:var(--text-muted);"></i>
+            <input type="text" id="cryptoSearch" placeholder="BUSCAR ACTIVO (EJ: BITCOIN)..." onkeyup="updateTable()" 
+                   style="background:var(--surface); border:1px solid var(--border); color:white; padding:10px 10px 10px 35px; border-radius:6px; width:250px;">
+        </div>
+
+        <div class="dropdown">
+            <button class="btn-primary">
+                <i class="fas fa-sort-numeric-down"></i> ORDENAR POR PRECIO <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
+            </button>
+            <div class="dropdown-content">
+                <button onclick="sortData('high')"><i class="fas fa-long-arrow-alt-up"></i> MAYOR PRECIO</button>
+                <button onclick="sortData('low')"><i class="fas fa-long-arrow-alt-down"></i> MENOR PRECIO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>NOMBRE</th>
+                    <th>PRECIO (USD)</th>
+                    <th>1H %</th>
+                    <th>24H %</th>
+                    <th>7D %</th>
+                    <th>MARKET CAP</th>
+                    <th>VOLUMEN</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        
+        <div class="pagination">
+            <button class="btn-primary" onclick="prevPage()">ANTERIOR</button>
+            <span id="pageInfo"></span>
+            <button class="btn-primary" onclick="nextPage()">SIGUIENTE</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>const allData = {{ cryptos | tojson }};</script>
+<script src="{{ url_for('static', filename='js/realtime.js') }}"></script>
+<script>window.onload = () => initDashboard(allData);</script>
+{% endblock %}

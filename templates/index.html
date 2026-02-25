@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+<div class="hero-static-banner">
+    <img src="{{ url_for('static', filename='images/bitcoin.jpg') }}" alt="Market Header">
+    <div class="hero-static-caption">
+        <h2>EL FUTURO DE LAS FINANZAS</h2>
+        <p>Monitorea el pulso del mercado cripto en tiempo real con datos de CoinMarketCap.</p>
+    </div>
+</div>
+
+<header style="text-align: center; margin: 3rem 0;">
+    <h1 style="font-size: 2.5rem; letter-spacing: 1px;">MONITOREO GLOBAL <span style="color: var(--primary);">TECH CRYPTO</span></h1>
+    <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 10px;">Tu puerta de entrada a los datos financieros en tiempo real.</p>
+</header>
+
+
+<div class="grid index-grid">
+    <a href="/dashboard" class="card-link">
+        <div class="card interactive-card market-card">
+            <div class="card-overlay"></div>
+            <div class="card-content-wrap">
+                <div class="always-visible">
+                    <h3>Mercado Cripto</h3>
+                </div>
+                <div class="hidden-on-start">
+                    <p>Precios en tiempo real y tendencias globales actualizadas.</p>
+                    <span class="btn-primary-bright">EXPLORAR MERCADO</span>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="/news" class="card-link">
+        <div class="card interactive-card news-card">
+            <div class="card-overlay"></div>
+            <div class="card-content-wrap">
+                 <div class="always-visible">
+                    <h3>Noticias de Acciones</h3>
+                </div>
+                <div class="hidden-on-start">
+                    <p>Análisis de sentimiento y últimas noticias de Finnhub.</p>
+                    <span class="btn-primary-bright">LEER NOTICIAS</span>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+
+<script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
+{% endblock %}
